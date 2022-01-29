@@ -1,6 +1,8 @@
 #include<bits/stdc++.h>
 using namespace std;
 
+vector<char> ops = { '+', '-', '*', '/' };
+
 int doOp(int val1, int op, int val2) {
     if (op == 0) return val1 + val2;
     else if (op == 1) return val1 - val2;
@@ -34,12 +36,18 @@ bool calc(int op1, int op2, int op3, int n) {
     else return false;
 }
 
-string print(int op) {
-    if (op == 0) return "+";
-    else if (op == 1) return "-";
-    else if (op == 2) return "*";
-    else if (op == 3) return "/";
-    else return "?";
+bool calcAns(int n) {
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+            for (int k = 0; k < 4; k++) {
+                if (calc(i, j, k, n)) {
+                    cout << "4 " << ops[i] << " 4 " << ops[j] << " 4 " << ops[k] << " 4 = " << n << endl;
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
 }
 
 int main() {
@@ -48,34 +56,8 @@ int main() {
     while (m--) {
         int n;
         cin >> n;
-
-        vector<int> ops;
-        ops.push_back(0);
-        ops.push_back(0);
-        ops.push_back(0);
-
-        bool ans = false;
-
-        while (ops[0] < 4) {
-            if (calc(ops[0], ops[1], ops[2], n)) {
-                cout << "4 " << print(ops[0]) << " 4 " << print(ops[1]) << " 4 " << print(ops[2]) << " 4 = " << n << endl;
-                ans = true;
-                break;
-            }
-            else {
-                ops[2]++;
-                if (ops[2] > 3) {
-                    ops[2] = 0;
-                    ops[1]++;
-                }
-                if (ops[1] > 3) {
-                    ops[1] = 0;
-                    ops[0]++;
-                }
-            }
-        }
-
-        if (!ans) {
+        
+        if (!calcAns(n)) {
             cout << "no solution" << endl;
         }
     }
