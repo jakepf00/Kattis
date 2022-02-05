@@ -5,21 +5,27 @@ using namespace std;
 
 int main() {
     string password, message;
-    cin >> password, message;
+    cin >> password >> message;
 
-    while (!password.empty()) {
-        size_t found = message.find(password[0]);
-        if (found != string::npos) {
-            password.erase(0,1);
-            message.erase(0, found);
+    char next = password[0];
+    password.erase(0, 1);
+    for (int i = 0; i < message.length(); i++) {
+        if (message[i] == next) {
+            if (password == "") {
+                cout << "PASS" << endl;
+                return 0;
+            }
+            next = password[0];
+            password.erase(0, 1);
         }
-        else break;
+        else {
+            for (auto j : password) {
+                if (message[i] == j) {
+                    cout << "FAIL" << endl;
+                    return 0;
+                }
+            }
+        }
     }
-
-    if (password.empty()) {
-        cout << "PASS" << endl;
-    }
-    else cout << "FAIL" << endl;
-
-    return 0;
+    cout << "FAIL" << endl;
 }
